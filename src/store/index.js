@@ -1,42 +1,39 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    issues: [
-      {
-        title: "button",
-        description: "fix button",
-        status: "open",
-        trashed: false,
-        id: "0",
-      },
-      {
-        title: "button",
-        description: "fix button blue",
-        status: "closed",
-        trashed: false,
-        id: "1",
-      },
-      {
-        title: "button",
-        description: "fix yellow",
-        status: "trashed",
-        trashed: false,
-        id: "2",
-      },
-      {
-        title: "button",
-        description: "fix navigation",
-        status: "closed",
-        trashed: false,
-        id: "3",
-      },
-    ],
+export const ISSUES = "issues";
+export const ADD_ISSUE = "addIssue";
+export const UPDATE_ISSUE = "updateIssue";
+
+const state = {
+  issues: [],
+};
+
+export const actions = {
+  [ADD_ISSUE]({ commit }, issue) {
+    commit(ADD_ISSUE, issue);
   },
-  mutations: {},
-  actions: {},
-  modules: {},
+  [UPDATE_ISSUE]({ commit }, issue) {
+    commit(UPDATE_ISSUE, issue);
+  },
+};
+
+export const mutations = {
+  [ADD_ISSUE](state, payload) {
+    state.issues.push(payload);
+  },
+  [UPDATE_ISSUE](state, payload) {
+    const issue = state.issues.find((issue) => issue.title === payload.title);
+    Object.assign(issue, payload);
+  },
+};
+
+export default new Vuex.Store({
+  state,
+  actions,
+  mutations,
+  plugins: [createPersistedState()],
 });
