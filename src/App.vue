@@ -1,32 +1,36 @@
 <template>
-  <div id="app">
-    <div id="nav">
+  <div class="todo">
+    <div class="todo__navigation">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/issues/open">Open issues</router-link> |
+      <router-link to="/issues/done">Done issues</router-link> |
+      <router-link to="/issues/trashed">Trashed issues</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+<style lang="scss">
+html {
+  background: #ccc;
+}
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.todo {
   text-align: center;
   color: #2c3e50;
+  background: #ccc;
 }
 
-#nav {
+.todo__navigation {
   padding: 30px;
-}
+  background: #cb750d;
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+  .router-link-exact-active {
+    color: #42b983;
+  }
 }
 </style>
