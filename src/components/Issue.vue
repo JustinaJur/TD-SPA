@@ -1,46 +1,44 @@
 <template>
-  <div>
-    <b-card
-      class="issue"
-      :title="issue.title"
-      :bg-variant="cardColor"
-      text-variant="white"
+  <b-card
+    class="issue"
+    :title="issue.title"
+    :bg-variant="cardColor"
+    text-variant="white"
+  >
+    <b-button
+      variant="info"
+      class="issue__edit"
+      @click="isBeingEdited ? updateIssue() : (isBeingEdited = true)"
     >
-      <b-button
-        variant="info"
-        class="issue__edit"
-        @click="isBeingEdited ? updateIssue() : (isBeingEdited = true)"
+      {{ isBeingEdited ? "update" : "edit" }}
+    </b-button>
+    <b-card-text class="issue__description" v-if="!isBeingEdited">
+      {{ issue.description }}
+    </b-card-text>
+    <b-card-text v-else>
+      <CustomInput
+        type="textarea"
+        v-model="currentIssue.description"
+        label="Description"
+      />
+    </b-card-text>
+    <div class="issue__status">
+      <label class="col-form-label">Issue Status</label>
+      <b-form-select
+        class="issue__select"
+        v-model="currentIssue.status"
+        :options="issueStatusOptions"
+        @change="updateIssue"
+      />
+      <b-form-checkbox
+        v-model="currentIssue.trashed"
+        button
+        @change="updateIssue"
       >
-        {{ isBeingEdited ? "update" : "edit" }}
-      </b-button>
-      <b-card-text class="issue__description" v-if="!isBeingEdited">
-        {{ issue.description }}
-      </b-card-text>
-      <b-card-text v-else>
-        <CustomInput
-          type="textarea"
-          v-model="currentIssue.description"
-          label="Description"
-        />
-      </b-card-text>
-      <div class="issue__status">
-        <label class="col-form-label">Issue Status</label>
-        <b-form-select
-          class="issue__select"
-          v-model="currentIssue.status"
-          :options="issueStatusOptions"
-          @change="updateIssue"
-        />
-        <b-form-checkbox
-          v-model="currentIssue.trashed"
-          button
-          @change="updateIssue"
-        >
-          {{ $route.params.type === "trashed" ? "Restore" : "Trash" }}
-        </b-form-checkbox>
-      </div>
-    </b-card>
-  </div>
+        {{ $route.params.type === "trashed" ? "Restore" : "Trash" }}
+      </b-form-checkbox>
+    </div>
+  </b-card>
 </template>
 <script>
 import { mapState } from "vuex";
